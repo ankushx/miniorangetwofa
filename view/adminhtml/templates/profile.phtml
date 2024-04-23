@@ -1,0 +1,70 @@
+<?php
+// initialize all variables
+$TwoFAsettings = $this->getExtensionPageUrl('TwoFAsettings');
+$signinsettings = $this->getExtensionPageUrl('signinsettings');
+$attrsettings = $this->getExtensionPageUrl('attrsettings');
+$support = $this->getExtensionPageUrl('support');
+$formKey = $this->getBlockHtml('formkey');
+$sms_email_detail = $this->get_sms_email_detail();
+$user_left=$this->no_of_user_left();
+
+?>
+        <div id="userprofile">
+            <div style="display: flow-root;">
+                <div style="float:left;"><h3>Your Profile</h3></div>
+
+                <form name="f" method="post" action="">
+                    <?php print_r($formKey); ?>
+                    <input type="hidden" name="option" value="removeAccount" />
+                    <input type="submit" style="float:right;margin-right:3px;" name="submit" id="remove_plugin" value="Remove Account"/>
+                </form>
+                <form name="f" method="post" action="">
+                    <?php print_r($formKey); ?>
+                    <input type="hidden" name="option" value="refresh" />
+                    <input type="submit" style="float:right;" name="submit" id="refresh_plugin" value="Refresh Account"/>
+                </form>
+            </div>
+            <hr>
+            <table class="data center">
+                <tr>
+                    <td><b>miniOrange Account Email</b></td>
+                    <td> <?php print_r($this->getCustomerEmail()); ?> </td>
+                </tr>
+                <tr>
+                    <td><b>Customer ID</b></td>
+                    <td> <?php  print_r($this->getCustomerKey()); ?></td>
+                </tr>
+                <tr>
+                    <td><b>Remaining Users</b></td>
+                    <td> <?php print_r($user_left); ?> </td>
+                </tr>
+                <?php if( isset($sms_email_detail->status) && $sms_email_detail->status=='SUCCESS' && isset($sms_email_detail->smsRemaining) && isset($sms_email_detail->emailRemaining)) {?>
+                <tr>
+
+                <td><b>Remaining SMS</b></td>
+                <td> <?php  print_r($sms_email_detail->smsRemaining); ?> </td>
+            </tr>
+            <tr>
+            <td><b>Remaining Emails</b></td>
+            <td> <?php print_r($sms_email_detail->emailRemaining); ?> </td>
+        </tr>
+        <?php } ?>
+            </table>
+            <div class="mo_note" id="configure">
+                <div class="btn-link" id="configure">How do I configure the module?</a></div>
+                <div style="display:none" class="show_info">
+                    <br>
+                    <b>Follow this setup guide to configure your TwoFA module</b>:<a href="https://plugins.miniorange.com/magento-2fa-setup-guides">Click here</a> .<br>
+                    OR
+                    <br>
+                    <b>Follow these steps to Configure TwoFA:</b><br>
+                    <ol>
+                        <li>Go to the TwoFA Settings Section of the module or <a href="<?php print_r($signinsettings); ?>">click here</a> to access it.</li>
+                        <li>If you want to enable TwoFA for administrators, toggle the "Enable Two-Factor Authentication for Admins" option. If you want to enable TwoFA for frontend customers, toggle the "Enable Two-Factor Authentication for Customers" option.</li>
+                        <li>Select the specific method you want to use during the TwoFA process and save the settings.</li>
+                        <li>When you attempt to log in to your account, a TwoFA popup will appear, guiding you through the configuration process for Two-Factor Authentication.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+

@@ -1,0 +1,86 @@
+<!--
+    This template shows a registration page to the user.
+    This page is only shown if the registration status is
+    not set in the system.
+-->
+
+<?php
+    $currentAdminUser = $this->getCurrentAdminUser()->getData();
+    $userEmail = $currentAdminUser['email'];
+    $firstName = $currentAdminUser['firstname'];
+    $lastName = $currentAdminUser['lastname'];
+    $site = $this->getBaseUrl();
+
+    $formKey = $this->getBlockHtml('formkey');
+
+    echo '
+
+    <form name="f" method="post" action="" id="register-form">
+            '.$formKey.'
+            <input type="hidden" name="option" value="registerNewUser" />
+            <div class="mo_idp_table_layout">
+                <h3>REGISTER WITH MINIORANGE</h3><hr>
+                <div class="mo_note">
+                <input type="checkbox" id="registered" name="registered" value="isChecked" onclick="ifUserRegistered()"/> Already Registered<br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row" id="email">
+                        <div class="col-sm-3  row1 labels">
+                            <label >Email :</label>
+                        </div>
+                        <div class="col-md-7  row1">
+                            <input class="method-input-box" style="margin-top: -8px;" type="email" name="email" required placeholder="person@example.com" value="'.$userEmail.'" />
+                        </div>
+                    </div>
+
+                    <div class="row" id="firstName">
+                        <div class="col-sm-3 row1 labels">
+                            <label class="labels">First Name :</label>
+                        </div>
+                        <div class="col-sm-7 row1">
+                            <input class="method-input-box" style="margin-top: -8px;" type="text" name="firstName" placeholder="First Name" value="'.$firstName.'"  />
+                        </div>
+                    </div>
+                    <div class="row" id="lastName">
+                        <div class="col-sm-3 row1 labels">
+                            <label class="labels">Last Name :</label>
+                        </div>
+                        <div class="col-sm-7 row1">
+                            <input class="method-input-box" style="margin-top: -8px;" type="text" name="lastName" value="'.$lastName.'" placeholder="Last Name" />
+                        </div>
+                    </div>
+                    <div class="row" id="company">
+                        <div class="col-sm-3 row1 labels">
+                            <label class="labels">Site/Organization :</label>
+                        </div>
+                        <div class="col-sm-7 row1">
+                            <input class="method-input-box" style="margin-top: -8px;" required type="text" name="companyName" value="'.$site.'" placeholder="Last Name" />
+                        </div>
+                    </div>
+                    <div class="row" id="password">
+                        <div class="col-sm-3 row1 labels">
+                            <label class="labels">Password :</label>
+                        </div>
+                        <div class="col-sm-7 row1">
+                            <input class="method-input-box" style="margin-top: -8px;" required type="password" name="password" placeholder="Choose your password (Min. length 6)" />
+                        </div>
+                    </div>
+                    <div class="row" id="confirmPassword">
+                        <div class="col-sm-3 row1 labels">
+                            <label class="labels">Confirm Password :</label>
+                        </div>
+                        <div class="col-sm-7 row1">
+                            <input class="method-input-box"  style="margin-top: -8px;"type="password" name="confirmPassword" placeholder="Confirm your password" />
+                        </div>
+                    </div>
+                    &nbsp;
+                    <input type="submit" name="submit" value="Register/Login" style="width:150px;margin-left: -0.5%;margin-top:2%;" />
+                </div>
+           </div>
+        </form>' ;
+?>
+
+
+

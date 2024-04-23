@@ -1,0 +1,21 @@
+<?php
+
+// initialize all variables
+$twofasettings = $this->getExtensionPageUrl('twofasettings');
+$account = $this->getExtensionPageUrl('account');
+$signinsettings = $this->getExtensionPageUrl('signinsettings');
+$support = $this->getExtensionPageUrl('support');
+$pricing = $this->getExtensionPageUrl('upgrade');
+$customgateway=$this->getExtensionPageUrl('customgateway');
+$usermanagement=$this->getExtensionPageUrl('usermanagement');
+$activeTab = $this->getCurrentActiveTab();
+echo '	<div style=" padding: 0 1%;">
+            <div class="topnav" id="myTopnav">
+            <a class="nav-tab '.($activeTab == 'account' ? 'active' : '').'" href=" '.$account.' ">Account</a>
+            <a class="nav-tab '.($activeTab == 'signinsettings' ? 'active' : '').'" href=" '.$signinsettings.' ">Two Factor Settings</a>
+            <a class="nav-tab '.($activeTab == 'twofasettings' ? 'active' : '').'" href=" '.$twofasettings.' ">Configure TwoFA</a>
+            <a class="nav-tab '.($activeTab == 'usermanagement' ? 'active' : '').'" href=" '.$usermanagement.' ">User management</a>
+            <a class="nav-tab '.($activeTab == 'customgateway' ? 'active' : '').'" href=" '.$customgateway.' ">Custom Gateway</a>
+            <a class="nav-tab '.($activeTab == 'upgrade' ? 'active' : '').'" href=" '.$pricing.' ">Upgrade</a>
+                </div>
+        </div>' ;

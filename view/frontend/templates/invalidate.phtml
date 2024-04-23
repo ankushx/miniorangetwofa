@@ -1,0 +1,38 @@
+<script>require(['Magento_Customer/js/customer-data'], function($) { $.reload(['customer','compare-products','last-ordered-items','cart']);});</script>
+<?php
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->create('Magento\Customer\Model\Session');
+if ($customerSession->isLoggedIn()) {
+    
+    $fullname = $customerSession->getCustomer()->getName();
+    $fname = $customerSession->getCustomer()->getFirstname();
+    if (!empty($fullname)) {
+    
+        ?>
+        <script>
+        // <![CDATA[
+            require( function ($, script) {
+                
+                $( window ).load(function() {
+                  
+                    var delay = 0;
+                    while(delay<5000) {
+                        setTimeout(function() { mo_invalidate($, "<?php echo $fullname;?>", "<?php echo $fname;?>"); }, delay);
+                        delay += 100;
+                    }
+                  
+                });
+
+                
+            });
+            // ]]>
+        </script>
+
+        <?php
+    
+    }
+}
+  
+  
+?>

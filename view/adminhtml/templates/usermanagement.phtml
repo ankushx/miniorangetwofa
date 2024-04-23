@@ -1,0 +1,79 @@
+<?php 
+$formKey = $this->getBlockHtml('formkey');
+$userDetails=$this->getUserManagementDetails();
+$create_account_first = ($this->checkcustomerID()==NULL)? 'disabled':'';
+
+?>
+
+<div class="row">
+<div class="col-sm-8">
+   <div class="page" id="samlsettings">
+      <div class="mosp_table_layout">
+
+      <?php if($create_account_first=='disabled') {?>  
+    <div class="error-msg">
+    Please register and verify your account before trying to configure your settings. Go the Account Section to complete your registration.
+      </div> <?php } ?>
+
+ 
+      <form id="userManagement" method="post" action="">
+        <?php print_r($formKey); ?>
+<div style="margin-left:2%">
+<h3>USER MANAGEMENT</h3>
+<span class="tooltip">
+     <div class="admin__field-tooltip tooltip">
+        <a class="admin__field-tooltip-action action-help"><span>What is this?</span></a> 
+    </div>
+        <span class="tooltiptext"><span class="header"><b><i>WHAT IS THIS?</i></b></span><hr>
+        <span class="body">Enter the user's username to view the user configuration data. Additionally, you can reset user configuration data.  </span></span>
+        </span>
+    <input type="text" name="user_username" value="" style="width:70%;margin-left:30px;" placeholder="Enter Username of user"  <?php print_r($create_account_first); ?> required></input>
+    <input  <?php print_r($create_account_first); ?> type="submit"  name="search" value="search"></input>
+
+
+
+</div>
+
+</form>
+<br><br>
+<div id="userprofile" <?php if(!is_null($userDetails['user_management_username'])){?> style="display:block" <?php }else{ ?> style="display:none" <?php } ?>>
+<h3>USER DETAILS:</h3>
+<table class="usermanagement">
+    <tr>
+        <td>Username:</td>
+        <td class="infoWidth"><?php print_r($userDetails['user_management_username']); ?></td>
+</tr>
+<tr>
+        <td>Email:</td>
+        <td class="infoWidth"><?php print_r($userDetails['user_management_email']); ?></td>
+</tr>
+<tr>
+        <td>Countrycode:</td>
+        <td class="infoWidth"> <?php print_r($userDetails['user_management_countrycode']); ?></td>
+</tr>
+<tr>
+        <td>Phone:</td>
+        <td class="infoWidth"><?php print_r($userDetails['user_management_phone']); ?></td>
+</tr>
+<tr>
+        <td>Active Method:</td>
+        <td class="infoWidth"><?php print_r($userDetails['user_management_activemethod']); ?></td>
+</tr>
+<tr>
+        <td>Configured Method:</td>
+        <td class="infoWidth"><?php print_r($userDetails['user_management_configuredmethod']); ?></td>
+</tr>
+</table>
+<br><br>
+<form id="userManagement" method="post" action="">
+        <?php print_r($formKey); ?>
+<div>
+    <input type="submit" title="After resetting Details, users can reconfigure Two Factor Authentication by loggin in again"  name="reset" value="Reset"></input>
+</div>
+
+</form>
+
+</div>
+
+</div>
+</div>

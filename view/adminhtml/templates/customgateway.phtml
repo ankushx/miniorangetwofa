@@ -1,0 +1,299 @@
+<?php
+$create_account_first = ($this->checkcustomerID()==NULL)? 'disabled':'';
+$formKey = $this->getBlockHtml('formkey');
+$pricing = $this->getExtensionPageUrl('upgrade');
+$enable_email_customgateway=$this->get_enable_email_customgateway()?'checked':'';
+$enable_sms_customgateway=$this->get_enable_sms_customgateway()?'checked':'';
+
+?>
+<div class="row">
+<div class="col-sm-8">
+<?php if($create_account_first=='disabled') {?>  
+    <div class="error-msg">
+    Please register and verify your account before trying to configure your settings. Go the Account Section to complete your registration.
+      </div> <?php } ?>
+
+      <div class="mo_note">
+                                <span class="btn-link " >What is Custom Gateway? <span style="color:red;margin-left:20%;">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp *</span> <span style="color:black; font-weight:normal" > (Available in the <a href="<?php print_r($pricing); ?>" class="premium btn-link">premium</a> version)</span></span></span>
+                                <div hidden class="show_info">
+                                <ol>
+                                <br>
+                                <li>In Custom Gateway tab admins can set their own sms and email provider to send OTP</li>
+                                <li>In Email Custom gateway you can set your SMTP provider details and use to send email from that SMTP provider.</li>
+                                <li>In SMS Custom gateway you can set your SMS provider, We support Twilio, Get Method, Post Method.</li>
+                            </ol>
+                                </div>
+        </div>
+        <br>
+
+<form id="customGateway_email" method="post" action="">
+             <?php print_r($formKey); ?>
+             <input type="hidden" name="enable_Emailcustomgateway" value="enable_Emailcustomgateway">
+                     <label class="switch">
+                        <input type="checkbox" name="enable_customgateway_forEmail" id="enable_customgateway_forEmail" 
+                        <?php print_r($create_account_first); ?>  <?php print_r($enable_email_customgateway); ?> value="true" onclick="document.getElementById('customGateway_email').submit();" >  <span class="slider round"></span>  </label>&nbsp &nbsp Enable Custom Gateway For Email
+                     
+</form>
+<div id="showHideEmaildiv"  <?php if($enable_email_customgateway=='checked'){ ?> style="display:block" <?php }else{ ?> style="display:none" <?php } ?>>                       
+<form id="customGateway" method="post" action="">
+             <?php print_r($formKey); ?>
+             <table style="width:100%;">
+            <tr>
+						<td style="width:200px;"><strong>Hostname<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="custom_gateway_hostname" style="width: 100%;" value="" placeholder="Host name or IP address of SMTP Server" disabled required/></td>
+					  </tr>
+            <tr>
+						<td style="width:200px;"><strong>Port<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="custom_gateway_port" style="width: 100%;" value="" placeholder="Default ports: 25, 465, or 587. (SSL - 465, TLS - 587)" disabled required/></td>
+					  </tr>
+            <tr>
+						<td style="width:200px;"><strong>Protocol<span style="color:red;">*</span>:</strong></td>
+						<td><select name="custom_gateway_protocol" id="custom_gateway_protocol">
+              <option value="" >None</option>
+              <option value="ssl"  >SSL</option>
+              <option value="tls"  >TLS</option>
+              </select>
+            </td>
+					  </tr>
+            <tr>
+						<td style="width:200px;"><strong>Authentication<span style="color:red;">*</span>:</strong></td>
+						<td><select name="custom_gateway_authentication" id="custom_gateway_authentication">
+              <option value="smtp"  >None</option>
+              <option value="plain"  >PLAIN</option>
+              <option value="login"  >LOGIN</option>
+              <option value="crammd5" >CRAM-MD5</option>
+            </td>
+					  </tr>
+            <tr>
+						<td style="width:200px;"><strong>Username<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="custom_gateway_username" style="width: 100%;" value="" placeholder="Enter Username Here" disabled required/></td>
+					  </tr>
+            <tr>
+						<td style="width:200px;"><strong>Password<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="custom_gateway_password" style="width: 100%;" value="" placeholder="Enter Password Here" disabled required/></td>
+					  </tr>
+            <tr>
+            <td></td>
+            <td> 
+            <input type="submit" name="email_submit" value="Submit" disabled /></td>
+</table>
+</form>
+
+<h2>Custom Gateway Email Configuration</h2>
+<form id="customGateway" method="post" action="">
+             <?php print_r($formKey); ?>
+             <table style="width:100%;">
+            <tr>
+						<td style="width:200px;"><strong>Sender Email<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="customGateway_from_configuration" style="width: 100%;" value="" disabled  placeholder="Enter Sender Email Address." required/></td>
+					  </tr>
+            <tr>
+						<td style="width:200px;"><strong>Subject of Email<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="customGateway_subject_configuration" style="width: 100%;" value="" disabled placeholder="Example: Your Requested One Time Passcode." required/></td>
+					  </tr>
+            <tr>
+						<td style="width:200px;"><strong>Email Message<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="customGateway_message_configuration" style="width: 100%;" value="" disabled placeholder="Example: Dear Customer, Your one time passcode is ##OTP##." required/>
+            <br> <i>You need to write ##OTP## where you wish to place generated otp in this template. </i>
+            </td>
+					  </tr>
+            <tr>
+						<td style="width:200px;"><strong>OTP Length<span style="color:red;">*</span>:</strong></td>
+						<td><select name="customGateway_otpLength_configuration" id="customGateway_otpLength_configuration">
+              <option value="3" >3</option>
+              <option value="4"  >4</option>
+              <option value="5"  >5</option>
+              <option value="6"  >6</option>
+              <option value="7"  >7</option>
+              <option value="8"  >8</option>
+              </select>
+            </td>
+					  </tr>
+
+
+            <tr>
+            <td></td>
+            <td> 
+            <input type="submit" name="customgateway_emailConfiguration" value="Submit" disabled /></td>
+</table>
+</form>
+<h2>Test Email Gateway Configurations:</h2>
+<form id="customGateway" method="post" action="">
+             <?php print_r($formKey); ?>
+         
+<table style="width:100%;">
+            </tr>
+            <tr>
+						<td style="width:200px;"><strong>Send Email From<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="custom_gateway_send_from" style="width: 100%;" value="" placeholder="To test, Enter the email address you wish to send from" disabled required/></td>
+					  </tr>
+            <tr>
+						<td style="width:200px;"><strong>Send Email To<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="custom_gateway_send_to" style="width: 100%;" value="" placeholder="Enter the recipient's email address." disabled required/></td>
+					  </tr>
+            <tr>
+            <td></td>
+            <td> 
+            <input type="submit" name="test_email" value="Test Email" disabled /></td>
+            </tr>
+</table></form>
+
+</div>
+<br><hr style="margin-top:1%;"><br>
+<div>
+
+<form id="customGateway_sms" method="post" action="">
+             <?php print_r($formKey); ?>
+             <input type="hidden" name="enable_SMScustomgateway" value="enable_SMScustomgateway">
+                     <label class="switch">
+                        <input type="checkbox" name="enable_customgateway_forSMS" id="enable_customgateway_forSMS" 
+                        <?php print_r($create_account_first); ?> <?php print_r($enable_sms_customgateway); ?> value="true" onclick="document.getElementById('customGateway_sms').submit();" title="Please Enable Custom Gateway First.">  <span class="slider round"></span>  </label>&nbsp &nbsp Enable Custom Gateway For SMS
+
+</form>
+<div id="showHideSMSdiv" <?php if($enable_sms_customgateway=='checked'){ ?> style="display:block" <?php }else{ ?> style="display:none" <?php } ?>>
+<form id="customGateway" method="post" action="">
+             <?php print_r($formKey); ?>
+
+             <table style="width:100%;">
+             <td style="width:200px;"><strong>Method<span style="color:red;">*</span>:</strong></td>
+			 <td><select name="custom_gateway_apiProvider_sms" id="customgatewayapiProvidersms" onchange="customGatewayMethod()">
+              <option value="twilio" >Twilio</option>
+              <option value="getMethod"  >Get Method</option>
+              <option value="postMethod"  >Post Method</option>
+              </select></td>
+</table>
+
+<div id="twilio_method" style="display:block">
+<table style="width:100%;">
+<tr>
+					<td style="width:200px;">	<strong>Twilio SID<span style="color:red;">*</span>:</strong></td>
+					  <td><input type="text" name="custom_gateway_twilio_sid" style="width: 100%;" value="" placeholder="Enter Twilio SID" disabled /></td>
+</tr>
+<tr>         
+          <td style="width:200px;"><strong>Twilio Token<span style="color:red;">*</span>:</strong></td>
+          <td><input type="text" name="custom_gateway_twilio_token" style="width: 100%;" value="" placeholder="Enter Twilio Token" disabled /></td>
+</tr>
+<tr>           
+						<td style="width:200px;"><strong>Twilio Number<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="custom_gateway_twilio_ph_number" style="width: 100%;" value="" placeholder="Enter Twilio Number" disabled />
+            <br><i>Enter Twilio Number without + sign.</i>
+            </td>
+</tr>
+<tr>
+            <td></td>
+            <td> 
+            <input type="submit" name="sms_submit" value="Submit" disabled /></td>
+                      </tr>            
+</table>
+</div>
+<div id="get_method"  style="display:none">
+<table style="width:100%;">
+<tr>
+<td style="width:200px;"><strong>SMS Gateway URL<span style="color:red;">*</span>:</strong></td>
+<td><input type="text" name="custom_gateway_getmethodURL" style="width: 100%;" value="" placeholder="Enter Gateway URL here" disabled />
+<br><i>Add your SMS API CURL URL and use ##phone## and ##message## variables to pass the values of mobile number and message fields. </i>Example: {SMS API}?parameter1=value1&phone_parameter=##phone##&message_parameter=##message##
+</td>
+</tr> 
+<tr>
+            <td></td>
+            <td> 
+            <input type="submit" name="sms_submit" value="Submit" disabled /></td>
+                      </tr> 
+</table>           
+</div>
+<div id="post_method" style="display:none">
+<table style="width:100%;">
+<tr>
+<td style="width:200px;"><strong>SMS Gateway URL<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="custom_gateway_postmethodURL" style="width: 100%;" value="" placeholder="Enter SMS API" disabled /></td>
+</tr>
+
+               <tr>
+                <td ><input  style="width:200px;margin-left:-8px" type="text" name="post_method_phone_attr" placeholder="Attribute name for phone"
+                   value="" disabled /></td>
+                 <td><input type="text" placeholder="##phone##"  disabled/></td>
+               </tr>
+               <tr >
+                <td ><input style="width:200px;margin-left:-8px"  type="text" name="post_method_message_attr" placeholder="Attribute name for message"
+                   value="" disabled /></td>
+                 <td><input  type="text" placeholder="##message##" disabled/></td>
+               </tr>
+               </table>
+         <div>
+           <div class="form-group same-row">
+           <input class="form-control gm-input" style=" width:200px" {log} id="post_parameter" name="post_parameter" type="text" value = "" placeholder="Enter Parameter">
+           </div>
+           <div class="form-group same-row hmargin">
+               <input class="form-control gm-input" style="margin-left:33px; width:360px" {log} id="post_value" name="post_value" type="text" value = "" placeholder="Enter value">
+           </div>
+           <div class="form-group same-row hmargin_add">
+               <button class="btn-round" type="button" {log} onClick="addCustomAttribute()">Add (+)</button>
+           </div>
+           <div class="form-group same-row hmargin_add">
+               <button class="btn-round" type="button" {log} onClick="deleteCustomAttribute()">Delete (-)</button>
+           </div>
+        </div>
+        <div style="text:inline;" class="new-row vmargin">
+   
+                 
+                            <input id="submit_custom_attr" type="submit" name="sms_submit" value="Submit" style="margin-left:212px;margin-top:20px;" disabled/> &nbsp;
+                            <input id="clear_custom_attr" type="submit" name="clear_postSMSParam_field" value="Clear Fields" style="margin-left:50px;margin-top:20px;" disabled>
+
+</div>
+                      </div>
+</form>
+
+<h2>Custom Gateway SMS Configuration</h2>
+<form id="customGateway" method="post" action="">
+             <?php print_r($formKey); ?>
+             <table style="width:100%;">
+
+            <tr>
+						<td style="width:200px;"><strong>SMS Message<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="customGateway_message_SMSconfiguration" style="width: 100%;" value="" placeholder="Example: Dear Customer, Your one time passcode is ##OTP##." disabled required/>
+            <br> <i>You need to write ##OTP## where you wish to place generated otp in this template. </i>
+            </td>
+					  </tr>
+            <tr>
+						<td style="width:200px;"><strong>OTP Length<span style="color:red;">*</span>:</strong></td>
+						<td><select name="customGateway_otpLength_configuration" id="customGateway_otpLength_configuration">
+              <option value="3" >3</option>
+              <option value="4"  >4</option>
+              <option value="5"  >5</option>
+              <option value="6"  >6</option>
+              <option value="7"  >7</option>
+              <option value="8"  >8</option>
+              </select>
+            </td>
+					  </tr>
+
+
+            <tr>
+            <td></td>
+            <td> 
+            <input type="submit" name="customgateway_smsConfiguration" value="Submit" disabled /></td>
+                      </tr>
+</table>
+</form>
+
+<form id="customGateway" method="post" action="">
+             <?php print_r($formKey); ?>
+             <h2>Test SMS Gateway Configurations:</h2>            
+<table style="width:100%;">
+            </tr>
+            <tr>
+						<td style="width:200px;"><strong>Mobile Number<span style="color:red;">*</span>:</strong></td>
+						<td><input type="text" name="custom_gateway_test_mobileNumber" style="width: 100%;" value="" placeholder="Enter Phone number with '+' sign and country code." disabled required/>
+            </td>
+					  </tr>
+            <tr>
+            <td></td>
+            <td> 
+            <input type="submit" name="test_sms" value="Test SMS" disabled /></td>
+            </tr>
+</table></form>
+</div>
+</div>
+              
+     
+
